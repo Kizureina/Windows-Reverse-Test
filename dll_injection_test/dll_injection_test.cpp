@@ -4,7 +4,7 @@
 int main()
 {
 	//LoadLibraryW(L"Dll1.dll");
-	MessageBoxW(NULL, L"LoadLibraryW", NULL, NULL);
+	MessageBoxW(NULL, L"Test", NULL, NULL);
 
 	std::cout << "Hello World!\n";
 }
