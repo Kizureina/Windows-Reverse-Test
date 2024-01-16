@@ -1,6 +1,7 @@
 ﻿#include <Windows.h>
 #include "detours.h"
 #pragma comment(lib, "detours.lib")
+#include "Tools.hpp"
 
 VOID __declspec(dllexport) MyFunc()
 {
@@ -29,11 +30,16 @@ VOID Hook()
 {
     orgMessageBoxW = MessageBoxW;
 
+    std::cout << "Hook start!" << std::endl;
+
     DetourRestoreAfterWith();
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
     DetourAttach(&(PVOID&)orgMessageBoxW, myMessageBoxW);
     DetourTransactionCommit();
+
+    std::cout << "Hook end" << std::endl;
+
 }
 
 
@@ -45,6 +51,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
+        SetConsole();
         Hook();
         break;
     case DLL_THREAD_ATTACH:
